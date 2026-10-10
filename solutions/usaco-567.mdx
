@@ -1,0 +1,50 @@
+---
+id: usaco-567
+source: USACO Bronze 2015 December
+title: Fence Painting
+author: Raksha Tiwari
+---
+
+# USACO 2015 December Contest, Bronze - Problem 1: Fence Painting
+
+## Problem Summary
+Farmer John and his cow Bessie are painting a fence sectioned from point 0 to point 100.
+- Farmer John paints the interval $[a, b]$.
+- Bessie paints the interval $[c, d]$.
+
+We need to calculate the total length of the fence that gets painted by at least one of them.
+
+## Implementation
+
+```cpp
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    // Open input and output files as required by USACO file I/O conventions
+    ifstream fin("paint.in");
+    ofstream fout("paint.out");
+
+    int a, b, c, d;
+    fin >> a >> b >> c >> d;
+
+    // Calculate total length if the two painted segments didn't overlap
+    int john_length = b - a;
+    int bessie_length = d - c;
+    int total_length = john_length + bessie_length;
+
+    // Determine the amount of overlap between interval [a, b] and interval [c, d]
+    // Overlap length is the maximum of 0 and (min(b, d) - max(a, c))
+    int overlap = max(0, min(b, d) - max(a, c));
+
+    // Subtract the overlapping segment so it is not counted twice
+    int ans = total_length - overlap;
+
+    // Print the final painted length to the output file
+    fout << ans << endl;
+
+    return 0;
+}
